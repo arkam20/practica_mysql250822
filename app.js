@@ -6,6 +6,8 @@ const app = express();
 
 const srv_port = process.env.SERVER_PORT;
 
+//directorio publico
+app.use(express.static('public'));
 
 //Rutas
 
