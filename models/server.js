@@ -17,10 +17,20 @@ class Server {
 
     middleware() {
 
-     //directorio publico
-      this.app.use(express.static('public'));
-      this.app.set('view engine', 'ejs');
-
+        
+        //Seteamos urlencoded para capturar datos de formulario
+        this.app.use(express.urlencoded({extended:false}));
+        
+        //Establecer el manejo de archivos JSON
+        this.app.use(express.json());
+        
+        //Establecer el motor de plantillas
+        this.app.set('view engine', 'ejs');
+        
+        //directorio publico
+        //this.app.use(express.static('public'));
+        this.app.use('/resources', express.static('public'));
+        this.app.use('/resources', express.static(__dirname + '/public'));
 
     }
 
