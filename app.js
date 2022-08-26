@@ -1,21 +1,11 @@
 //Se establece la ruta para variables de entorno
 require('dotenv').config({path:'env/.env'});
 
-const express = require('express');
-const app = express();
+const Server = require('./models/server');
 
-const srv_port = process.env.SERVER_PORT;
+const server = new Server;
 
-//directorio publico
-app.use(express.static('public'));
+server.listen();
 
-//Rutas
 
-app.get('/', ( req , res )=>{
-    res.send('Hola cucho');
-});
-
-app.listen(srv_port,() => {
-    console.log('Servidor iniciado en http://localhost:',srv_port);
-});
 
