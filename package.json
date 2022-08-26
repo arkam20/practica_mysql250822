@@ -20,6 +20,7 @@
   "homepage": "https://github.com/arkam20/practica_mysql250822#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",

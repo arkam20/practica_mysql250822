@@ -2,6 +2,12 @@ const express = require('express');
 const ejs = require('ejs');
 const colors = require('colors');
 
+//modulo para hashing de password
+const bcryptjs = require('bcryptjs');
+
+//modulo para sesiones
+const session = require('express-session');
+
 
 class Server {
 
@@ -26,6 +32,14 @@ class Server {
         
         //Establecer el motor de plantillas
         this.app.set('view engine', 'ejs');
+
+        
+
+        this.app.use(session({
+            secret:'secret',
+            resave:true,
+            saveUninitialized:true
+        }));
         
         //directorio publico
         //this.app.use(express.static('public'));

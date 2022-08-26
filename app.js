@@ -2,6 +2,7 @@
 require('dotenv').config({path:'env/.env'});
 
 const Server = require('./models/server');
+const connection = require('./database/db');
 
 const server = new Server;
 
