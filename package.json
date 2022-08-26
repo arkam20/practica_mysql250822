@@ -1,0 +1,21 @@
+{
+  "name": "practica_mysql250822",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arkam20/practica_mysql250822.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arkam20/practica_mysql250822/issues"
+  },
+  "homepage": "https://github.com/arkam20/practica_mysql250822#readme"
+}
