@@ -103,6 +103,29 @@ class Server {
                 });
         });
 
+
+        this.app.post('/auth', async ( req, res) => {
+            
+            //se obtienen los valores que se registraron desde el login
+            const {user, pass} = req.body
+            
+            let passwordHash = await bcryptjs.hash(pass,8);
+            
+            if(user && pass) {
+                this.connection.query(`SELECT * 
+                                       FROM users 
+                                       WHERE user = ?`, [user], async(error, results) => {
+                                            if(results.length == 0 || !(await bcryptjs.compare(pass, results[0].pass)))
+                                            {
+                                               res.send('USUARIO Y/O PASSWORD INCORRECTO'); 
+                                            } else {
+                                                res.send('USUARIO CONECTADO');
+                                            }
+                                       })
+            }           
+            
+        });
+
     }
 
     listen() {
