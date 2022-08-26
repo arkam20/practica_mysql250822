@@ -1,4 +1,5 @@
 const express = require('express');
+const ejs = require('ejs');
 const colors = require('colors');
 
 
@@ -18,8 +19,8 @@ class Server {
 
      //directorio publico
       this.app.use(express.static('public'));
+      this.app.set('view engine', 'ejs');
 
-      
 
     }
 
@@ -27,7 +28,7 @@ class Server {
         //Rutas
 
         this.app.get('/', ( req , res )=>{
-            res.send('Hola cucho');
+            res.render('index');
         });
 
     }
