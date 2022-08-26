@@ -19,6 +19,8 @@ class Server {
      //directorio publico
       this.app.use(express.static('public'));
 
+      
+
     }
 
     routes() {
