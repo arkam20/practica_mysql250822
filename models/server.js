@@ -9,12 +9,16 @@ const bcryptjs = require('bcryptjs');
 const session = require('express-session');
 
 
+
 class Server {
 
     constructor() {
 
         this.app = express();
         this.srv_port = process.env.SERVER_PORT;
+        
+        //Se establece la conexion con la BD
+        this.connection = require('../database/db');
 
         this.middleware();
 
@@ -55,6 +59,7 @@ class Server {
             res.render('index',{
                 usuario: 'sergio'
             });
+            Swal.fire('Any fool can use a computer');
         });
 
         this.app.get('/login', ( req, res) => {
@@ -63,6 +68,39 @@ class Server {
 
         this.app.get('/register', (req,res) =>{
             res.render('register');
+        });
+
+        //Metodo para dar de alta los usuarios
+        this.app.post('/register', async (req, res) => {
+            const user = req.body.user;
+            const name = req.body.name;
+            const rol  = req.body.rol;
+            const pass = req.body.pass;
+
+            //Se encripta el password a 8 iteraciones
+            let passwordHash = await bcryptjs.hash(pass, 8);
+
+            //Se hace la insercion
+            this.connection.query('INSERT INTO users SET ?' , {
+                user:user, 
+                name:name, 
+                rol:rol, 
+                pass:passwordHash}, async(error, results) => {
+                    if(error){
+                        console.log(`${error}`.bgRed);
+                    } else {
+                        res.render('register',{
+                            alert:true,
+                            alertTitle:"Registration!",
+                            alertMessage:'Registrado con Exito',
+                            alertIcon:'success',
+                            showConfirmButton:false,
+                            timer:1500,
+                            ruta:''
+                        })
+                       
+                    }
+                });
         });
 
     }
