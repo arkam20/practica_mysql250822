@@ -55,12 +55,12 @@ class Server {
     routes() {
         //Rutas
 
-        this.app.get('/', ( req , res )=>{
+        /*this.app.get('/', ( req , res )=>{
             res.render('index',{
                 usuario: 'sergio'
             });
-            Swal.fire('Any fool can use a computer');
-        });
+           
+        });*/
 
         this.app.get('/login', ( req, res) => {
             res.render('login');
@@ -117,14 +117,64 @@ class Server {
                                        WHERE user = ?`, [user], async(error, results) => {
                                             if(results.length == 0 || !(await bcryptjs.compare(pass, results[0].pass)))
                                             {
-                                               res.send('USUARIO Y/O PASSWORD INCORRECTO'); 
+                                               res.render('login',{
+                                                alert:true,
+                                                alertTitle: "Error",
+                                                alertMessage: "Usuario y/o password incorrectas",
+                                                alertIcon: "error",
+                                                showConfirmButton: true,
+                                                timer: 1500,
+                                                ruta:'login'
+                                               });
                                             } else {
-                                                res.send('USUARIO CONECTADO');
+                                                req.session.loggedin = true;
+                                                req.session.name = results[0].name;
+                                                res.render('login',{
+                                                    alert:true,
+                                                    alertTitle: "Conexion exitosa",
+                                                    alertMessage: "Login Correcto",
+                                                    alertIcon: "sucess",
+                                                    showConfirmButton: false,
+                                                    timer: 1500,
+                                                    ruta:''
+                                                   });
                                             }
                                        })
-            }           
+            }   else {
+                res.render('login',{
+                    alert:true,
+                    alertTitle: "Advertencia",
+                    alertMessage: "Por favor ingrese un usuario y/o password",
+                    alertIcon: "warning",
+                    showConfirmButton: true,
+                    timer: 1500,
+                    ruta:'login'
+                   });
+            }        
             
         });
+
+
+        this.app.get('/', (req,res) =>{
+            if(req.session.loggedin){
+                res.render('index',{
+                    login: true,
+                    name: req.session.name
+                });
+            } else {
+                res.render('index',{
+                    login: false,
+                    name: 'Debe inciar sesion'
+                })
+            }
+        })
+
+
+        this.app.get('/logout', (req,res)=> {
+            req.session.destroy(() =>{
+                res.redirect('/');
+            });
+        })
 
     }
 
